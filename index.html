@@ -1,210 +1,13 @@
-<div id="products" class="grid"></div>
-
-</section>
-
-<aside class="cart">
-
-<div class="cart-head">
-<span>🛒 سەبەتی فرۆشتن</span>
-<button onclick="clearCart()">🗑</button>
-</div>
-
-<div id="cartItems"></div>
-
-<div class="checkout">
-
-<div class="total">
-<span>کۆی گشتی</span>
-<strong id="total">0 IQD</strong>
-</div>
-
-<label>پارەی وەرگیراو</label>
-<input class="paid" id="paid" type="number" placeholder="100,000" oninput="changeMoney()">
-
-<div class="change">
-<span>گۆڕانەوە</span>
-<strong id="change">0 IQD</strong>
-</div>
-
-<button class="print" onclick="printReceipt()">توماکردن و چاپکردن　🖨</button>
-
-<div class="actions">
-<button class="save" onclick="saveSale()">حەفظی فرۆشتن</button>
-<button class="clear" onclick="clearCart()">سڕینەوەی سەبەت</button>
-</div>
-
-</div>
-
-</aside>
-
-</div>
-
-<footer>
-<span>© 2026 PLEX Company System. All rights reserved.</span>
-<span>دروستکراوە لەلایەن PLEX COMPANY 💙</span>
-</footer>
-
-</main>
-</div>
-
-<script>
-
-const products=[
-{name:"برنجی هەندی",price:25000,stock:50,img:"🍚"},
-{name:"چای لیپتۆن",price:7500,stock:80,img:"🍵"},
-{name:"ڕۆن",price:14000,stock:60,img:"🫒"},
-{name:"شەکر",price:5000,stock:100,img:"🍚"},
-{name:"شیر (١ لتر)",price:3000,stock:120,img:"🥛"},
-{name:"چیپس",price:2000,stock:90,img:"🥔"},
-{name:"کۆکاکۆلا",price:1500,stock:150,img:"🥤"},
-{name:"ئاوی معدەنی",price:500,stock:200,img:"💧"},
-{name:"شۆکۆلاتە",price:1000,stock:110,img:"🍫"},
-{name:"سابون",price:1500,stock:70,img:"🧼"}
-];
-
-let cart=[];
-
-function money(n){
-return n.toLocaleString("en-US")+" IQD";
-}
-
-function showProducts(){
-
-let search=document.getElementById("search").value.toLowerCase();
-
-let list=products.filter(p=>p.name.toLowerCase().includes(search));
-
-document.getElementById("products").innerHTML=list.map((p)=>`
-
-<div class="product">
-
-<div class="product-img">${p.img}</div>
-
-<h3>${p.name}</h3>
-
-<div class="price">${money(p.price)}</div>
-
-<span class="stock">لە کۆگا: ${p.stock}</span>
-
-<button class="add" onclick="add(${products.indexOf(p)})">＋</button>
-
-</div>
-
-`).join("");
+alert("فرۆشتن بە سەرکەوتوویی حەفظ کرا ✅");
 
 }
 
-function add(i){
 
-let product=products[i];
-
-let found=cart.find(p=>p.name===product.name);
-
-if(found){
-found.qty++;
-}else{
-cart.push({...product,qty:1});
-}
-
-showCart();
-
-}
-
-function showCart(){
-
-let box=document.getElementById("cartItems");
-
-box.innerHTML=cart.map((p,i)=>`
-
-<div class="cart-item">
-
-<div class="cart-img">${p.img}</div>
-
-<div class="cart-info">
-<b>${p.name}</b>
-<small>${money(p.price)}</small>
-<strong>${money(p.price*p.qty)}</strong>
-</div>
-
-<div class="qty">
-<button onclick="qty(${i},-1)">−</button>
-<span>${p.qty}</span>
-<button onclick="qty(${i},1)">＋</button>
-</div>
-
-<button class="remove" onclick="removeItem(${i})">🗑</button>
-
-</div>
-
-`).join("");
-
-let total=cart.reduce((a,p)=>a+p.price*p.qty,0);
-
-document.getElementById("total").innerText=money(total);
-
-changeMoney();
-
-}
-
-function qty(i,n){
-
-cart[i].qty+=n;
-
-if(cart[i].qty<=0){
-cart.splice(i,1);
-}
-
-showCart();
-
-}
-
-function removeItem(i){
-
-cart.splice(i,1);
-
-showCart();
-
-}
-
-function clearCart(){
-
-cart=[];
-
-document.getElementById("paid").value="";
-
-showCart();
-
-}
-
-function changeMoney(){
-
-let total=cart.reduce((a,p)=>a+p.price*p.qty,0);
-
-let paid=Number(document.getElementById("paid").value||0);
-
-let change=Math.max(0,paid-total);
-
-document.getElementById("change").innerText=money(change);
-
-}
-
-function saveSale(){
-
-if(cart.length===0){
-
-alert("سەبەت بەتاڵە");
-
-return;
-
-}
-
-alert("فرۆشتنەکە بە سەرکەوتوویی حەفظ کرا ✅");
-
-}
+/* PRINT */
 
 function printReceipt(){
 
-if(cart.length===0){
+if(cart.length === 0){
 
 alert("سەبەت بەتاڵە");
 
@@ -216,8 +19,12 @@ window.print();
 
 }
 
-showProducts();
-showCart();
+
+/* START */
+
+renderProducts();
+
+renderCart();
 
 </script>
 
