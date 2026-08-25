@@ -1,32 +1,316 @@
-alert("فرۆشتن بە سەرکەوتوویی حەفظ کرا ✅");
+Ahmad Al Bazazz, [8/26/2026 12:30 AM]
+<div class="logo">
+  <div class="logo-box">P</div>
+  <div>
+    <h2>PLEX</h2>
+    <span>COMPANY SYSTEM</span>
+  </div>
+</div>
 
-}
+<nav>
+
+  <button class="active">
+    <span>▣</span>
+    کاشێر
+  </button>
+
+  <button>
+    <span>⌂</span>
+    داشبۆرد
+  </button>
+
+  <button>
+    <span>▤</span>
+    کۆگا
+  </button>
+
+  <button>
+    <span>▥</span>
+    فرۆشتن
+  </button>
+
+  <button>
+    <span>♙</span>
+    کڕیارەکان
+  </button>
+
+  <button>
+    <span>▦</span>
+    ڕاپۆرتەکان
+  </button>
+
+  <button>
+    <span>⚙</span>
+    ڕێکخستن
+  </button>
+
+</nav>
+
+<div class="admin">
+  <div class="avatar">A</div>
+
+  <div>
+    <strong>Admin</strong>
+    <small>بەڕێوەبەر</small>
+  </div>
+</div>
+<header>
+
+  <div>
+    <h1>کاشێر</h1>
+    <p>بەخێربێیت بۆ سیستەمی PLEX</p>
+  </div>
+
+  <div class="header-actions">
+
+    <button class="notification">
+      🔔
+    </button>
+
+    <div class="today">
+      📅 ئەمڕۆ
+    </div>
+
+  </div>
+
+</header>
 
 
-/* PRINT */
+<!-- Statistics -->
 
-function printReceipt(){
+<section class="statistics">
 
-if(cart.length === 0){
+  <div class="stat-card blue">
+    <div class="stat-icon">💰</div>
 
-alert("سەبەت بەتاڵە");
-
-return;
-
-}
-
-window.print();
-
-}
+    <div>
+      <span>فرۆشتنی ئەمڕۆ</span>
+      <strong>1,250,000 IQD</strong>
+    </div>
+  </div>
 
 
-/* START */
+  <div class="stat-card green">
+    <div class="stat-icon">📈</div>
 
-renderProducts();
+    <div>
+      <span>قازانجی ئەمڕۆ</span>
+      <strong>350,000 IQD</strong>
+    </div>
+  </div>
 
-renderCart();
 
-</script>
+  <div class="stat-card purple">
+    <div class="stat-icon">🛒</div>
 
-</body>
-</html>
+    <div>
+      <span>فرۆشتنەکان</span>
+      <strong>24</strong>
+    </div>
+  </div>
+
+
+  <div class="stat-card orange">
+    <div class="stat-icon">📦</div>
+
+    <div>
+      <span>کاڵاکان</span>
+      <strong id="productCount">0</strong>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- POS -->
+
+<section class="pos">
+
+  <!-- Products -->
+
+  <div class="products-panel">
+
+    <div class="panel-header">
+
+      <div>
+        <h2>کاڵاکان</h2>
+        <p>کاڵای دڵخوازت هەڵبژێرە</p>
+      </div>
+
+      <button
+        class="add-product"
+        onclick="openProductModal()">
+
+        ＋ زیادکردنی کاڵا
+
+      </button>
+
+    </div>
+
+
+    <div class="search-box">
+
+      🔍
+
+      <input
+        id="search"
+        type="text"
+        placeholder="گەڕان بە ناوی کاڵا..."
+        oninput="renderProducts()">
+
+    </div>
+
+
+    <div
+      id="products"
+      class="products-grid">
+    </div>
+
+  </div>
+
+
+  <!-- Cart -->
+
+  <div class="cart-panel">
+
+    <div class="cart-header">
+
+      <div>
+        <h2>سەبەتی فرۆشتن</h2>
+        <span id="cartCount">0 کاڵا</span>
+      </div>
+
+      <button
+        class="delete-cart"
+        onclick="clearCart()">
+
+        🗑
+
+      </button>
+
+    </div>
+
+
+    <div
+      id="cartItems"
+      class="cart-items">
+    </div>
+
+
+    <div class="cart-bottom">
+
+      <div class="summary-row">
+        <span>کۆی کاڵاکان</span>
+        <strong id="subtotal">0 IQD</strong>
+      </div>
+
+
+      <div class="summary-row">
+        <span>داشکان</span>
+        <strong>0 IQD</strong>
+      </div>
+
+
+      <div class="total-row">
+        <span>کۆی گشتی</span>
+        <strong id="total">0 IQD</strong>
+      </div>
+
+
+      <label>
+        پارەی وەرگیراو
+      </label>
+
+      <input
+        id="paid"
+        class="paid"
+        type="number"
+        placeholder="0"
+        oninput="calculateChange()">
+
+
+      <div class="change">
+        <span>گۆڕانەوە</span>
+        <strong id="change">0 IQD</strong>
+      </div>
+
+
+      <button
+        class="complete"
+        onclick="completeSale()">
+
+        ✓ تەواوکردنی فرۆشتن
+
+      </button>
+
+
+      <button
+        class="print"
+        onclick="printReceipt()">
+
+        🖨 چاپکردنی پسوڵە
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+<div class="modal-header">
+
+  <h2>زیادکردنی کاڵای نوێ</h2>
+
+  <button onclick="closeProductModal()">
+    ×
+  </button>
+
+</div>
+
+
+<label>
+  ناوی کاڵا
+
+  <input
+    id="newProductName"
+    placeholder="ناوی کاڵا">
+</label>
+
+
+<label>
+  نرخ
+
+  <input
+    id="newProductPrice"
+    type="number"
+    placeholder="نرخ بە IQD">
+</label>
+
+
+<label>
+  ژمارەی کۆگا
+
+  <input
+    id="newProductStock"
+    type="number"
+    placeholder="ژمارە">
+</label>
+
+
+<label>
+  وێنە / ئایکۆن
+
+  <input
+    id="newProductIcon"
+    value="📦"
+maxlength="2">
+</label>
+
+
+<button
+  class="save-product"
+  onclick="addProduct()">
+
+  زیادکردنی کاڵا
+
+</button>
