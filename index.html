@@ -1,1 +1,95 @@
+<input id="productName" type="text" placeholder="ناوی کاڵا">
 
+<input id="productPrice" type="number" placeholder="نرخی کاڵا">
+
+<input id="productQty" type="number" value="1" min="1" placeholder="ژمارە">
+
+<button class="btn" onclick="addProduct()">
+  زیادکردن
+</button>
+<table>
+  <thead>
+    <tr>
+      <th>کاڵا</th>
+      <th>نرخ</th>
+      <th>ژمارە</th>
+      <th>کۆی گشتی</th>
+      <th>کردار</th>
+    </tr>
+  </thead>
+
+  <tbody id="productTable"></tbody>
+</table>
+<h2>کۆی پارە</h2>
+
+<h1 id="total">0</h1>
+
+<input
+  id="paid"
+  type="number"
+  placeholder="پارەی وەرگیراو"
+  oninput="calculateChange()"
+>
+
+<h3>
+  گۆڕانەوە:
+  <span id="change">0</span>
+</h3>
+
+<button class="btn" onclick="printReceipt()">
+  🖨️ چاپکردنی پسوڵە
+</button>
+
+<button
+  class="btn"
+  onclick="clearCart()"
+  style="background:#dc2626; margin-right:10px;"
+>
+  سڕینەوەی هەموو کاڵاکان
+</button>
+</head>
+
+<body>
+
+  <h1>PLEX COMPANY</h1>
+  <h2>پسوڵەی فرۆشتن</h2>
+
+  <table>
+
+    <tr>
+      <th>کاڵا</th>
+      <th>نرخ</th>
+      <th>ژمارە</th>
+      <th>کۆ</th>
+    </tr>
+`;
+products.forEach(product => {
+const subtotal = product.price * product.qty;
+
+total += subtotal;
+
+receipt += `
+  <tr>
+    <td>${product.name}</td>
+    <td>${product.price}</td>
+    <td>${product.qty}</td>
+    <td>${subtotal}</td>
+  </tr>
+`;
+});
+const paid = Number(document.getElementById("paid").value); const change = paid - total;
+receipt += ` </table>
+  <h2>کۆی گشتی: ${total}</h2>
+  <h3>پارەی وەرگیراو: ${paid}</h3>
+  <h3>گۆڕانەوە: ${change > 0 ? change : 0}</h3>
+
+  <p style="text-align:center">
+    سوپاس بۆ کڕینتان ❤️
+  </p>
+
+</body>
+</html>
+`;
+const printWindow = window.open("", "_blank");
+printWindow.document.write(receipt); printWindow.document.close();
+printWindow.print(); }
