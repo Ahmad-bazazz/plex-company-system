@@ -1,192 +1,125 @@
-padding:9px 0;
+Got it — you want a cashier system (likely a simple POS-like program).
+I’ll give you a complete, runnable, and robust example in Python that works in the terminal, supports adding items, calculating totals, and generating receipts.
+
+Python Cashier System
+Pythonimport sys
+
+# Product catalog (item_name: price)
+PRODUCTS = {
+    "apple": 0.5,
+    "banana": 0.3,
+    "milk": 1.2,
+    "bread": 1.0,
+    "eggs": 2.5
 }
 
-.total b{
-  color:#0871ff;
-  font-size:20px;
-}
+# Store cart as a list of tuples (item, quantity, price)
+cart = []
 
-.change b{
-  color:#20a64f;
-}
+def display_products():
+    """Display available products and prices."""
+    print("\nAvailable Products:")
+    print("-" * 30)
+    for item, price in PRODUCTS.items():
+        print(f"{item.capitalize():<10} - ${price:.2f}")
+    print("-" * 30)
 
-.checkout label{
-  display:block;
-  font-size:13px;
-  color:#5d6b80;
-}
+def add_to_cart():
+    """Add an item to the shopping cart."""
+    item = input("Enter product name: ").strip().lower()
+    if item not in PRODUCTS:
+        print("❌ Product not found.")
+        return
+    try:
+        qty = int(input("Enter quantity: "))
+        if qty <= 0:
+            print("❌ Quantity must be positive.")
+            return
+    except ValueError:
+        print("❌ Invalid quantity.")
+        return
+    price = PRODUCTS[item]
+    cart.append((item, qty, price))
+    print(f"✅ Added {qty} x {item.capitalize()} to cart.")
 
-.checkout input{
-  width:100%;
-  padding:11px;
-  margin-top:5px;
-  border:1px solid #dce4ee;
-  border-radius:8px;
-}
+def view_cart():
+    """Display the current cart."""
+    if not cart:
+        print("\n🛒 Cart is empty.")
+        return
+    print("\nYour Cart:")
+    print("-" * 40)
+    total = 0
+    for item, qty, price in cart:
+        subtotal = qty * price
+        total += subtotal
+        print(f"{item.capitalize():<10} x{qty:<3} @ ${price:.2f} = ${subtotal:.2f}")
+    print("-" * 40)
+    print(f"Total: ${total:.2f}")
 
-.complete,
-.print{
-  width:100%;
-  border:0;
-  padding:13px;
-  border-radius:9px;
-  color:white;
-  cursor:pointer;
-  margin-top:8px;
-}
+def checkout():
+    """Finalize purchase and print receipt."""
+    if not cart:
+        print("🛒 Cart is empty. Nothing to checkout.")
+        return
+    view_cart()
+    try:
+        payment = float(input("Enter payment amount: $"))
+    except ValueError:
+        print("❌ Invalid payment.")
+        return
+    total = sum(qty * price for _, qty, price in cart)
+    if payment < total:
+        print("❌ Insufficient payment.")
+        return
+    change = payment - total
+    print("\n🧾 Receipt")
+    print("-" * 40)
+    for item, qty, price in cart:
+        print(f"{item.capitalize():<10} x{qty:<3} @ ${price:.2f} = ${qty * price:.2f}")
+    print("-" * 40)
+    print(f"Total: ${total:.2f}")
+    print(f"Payment: ${payment:.2f}")
+    print(f"Change: ${change:.2f}")
+    print("✅ Thank you for shopping!")
+    cart.clear()
 
-.complete{
-  background:#20b956;
-}
+def main():
+    """Main menu loop."""
+    while True:
+        print("\n=== Cashier System ===")
+        print("1. View Products")
+        print("2. Add to Cart")
+        print("3. View Cart")
+        print("4. Checkout")
+        print("5. Exit")
+        choice = input("Select an option: ").strip()
+        if choice == "1":
+            display_products()
+        elif choice == "2":
+            add_to_cart()
+        elif choice == "3":
+            view_cart()
+        elif choice == "4":
+            checkout()
+        elif choice == "5":
+            print("👋 Goodbye!")
+            sys.exit()
+        else:
+            print("❌ Invalid choice.")
 
-.print{
-  background:#1479ff;
-}
+if __name__ == "__main__":
+    main()
 
-.empty-cart{
-  text-align:center;
-  padding:50px 20px;
-  color:#8290a3;
-}
 
-.empty-cart div{
-  font-size:45px;
-}
+Features
 
-.modal{
-  position:fixed;
-  inset:0;
-  background:#071a38aa;
-  display:none;
-  place-items:center;
-  z-index:20;
-  padding:20px;
-}
+✅ Product catalog with prices
+✅ Add items to cart with quantity
+✅ View cart with running total
+✅ Checkout with payment and change calculation
+✅ Input validation for errors
 
-.modal.show{
-  display:grid;
-}
 
-.modal-box{
-  width:min(500px,100%);
-  background:white;
-  border-radius:16px;
-  padding:22px;
-}
-
-.modal-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
-}
-
-.modal-title h2{
-  margin:0;
-}
-
-.modal-title button{
-  border:0;
-  background:#f1f4f8;
-  width:35px;
-  height:35px;
-  border-radius:50%;
-  font-size:22px;
-  cursor:pointer;
-}
-
-.modal-box label{
-  display:block;
-  margin-bottom:12px;
-  font-size:13px;
-  color:#56647a;
-}
-
-.modal-box input{
-  display:block;
-  width:100%;
-  padding:11px;
-  margin-top:5px;
-  border:1px solid #dce4ee;
-  border-radius:8px;
-  outline:none;
-}
-
-.modal-buttons{
-  display:flex;
-  gap:8px;
-  margin-top:15px;
-}
-
-.modal-buttons button{
-  flex:1;
-  padding:12px;
-  border:0;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-.cancel{
-  background:#edf1f6;
-}
-
-@media(max-width:1100px){
-
-.stats{
-  grid-template-columns:repeat(2,1fr);
-}
-
-.content{
-  grid-template-columns:1fr;
-}
-
-.products-grid{
-  grid-template-columns:repeat(3,1fr);
-}
-
-}
-
-@media(max-width:700px){
-
-.sidebar{
-  width:65px;
-  padding:15px 7px;
-}
-
-.logo{
-  font-size:22px;
-  text-align:center;
-}
-
-.logo small,
-.nav span{
-  display:none;
-}
-
-.nav{
-  text-align:center;
-}
-
-.main{
-  margin-right:65px;
-  width:calc(100% - 65px);
-  padding:10px;
-}
-
-.stats{
-  grid-template-columns:1fr;
-}
-
-.products-grid{
-  grid-template-columns:repeat(2,1fr);
-}
-
-.header{
-  display:block;
-}
-
-.header .primary{
-  margin-top:10px;
-}
-
-}
+If you want, I can also make a C++ version of this cashier system so it works as a compiled program for offline use.
+Do you want me to prepare the C++ cashier system next?
