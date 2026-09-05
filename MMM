@@ -1,0 +1,77 @@
+backup-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;} .backup-note{font-size:12px;color:var(--text-soft);margin:8px 0 0;line-height:1.6;}
+.linklike{background:none;border:none;padding:0;color:#9FBDB2;font-family:inherit;font-size:11px;cursor:pointer;text-decoration:underline;text-underline-offset:2px;} .linklike:hover{color:#fff;}
+@media (max-width:760px){ .app{flex-direction:column;} .sidebar{ position:fixed;bottom:0;left:0;right:0;top:auto;width:100%;height:auto; flex-direction:row;padding:6px 4px calc(6px + env(safe-area-inset-bottom)); z-index:40;box-shadow:0 -2px 14px rgba(0,0,0,.18); } .brand, .sidebar-foot{display:none;} nav{flex-direction:row;width:100%;gap:2px;} .nav-btn{flex:1;flex-direction:column;gap:3px;font-size:10px;padding:7px 2px;text-align:center;border-radius:10px;} .nav-btn svg{width:18px;height:18px;} .main{padding:18px 14px 88px;max-width:100%;} .page-title{font-size:19px;} .field-row{grid-template-columns:1fr;} .modal{padding:18px 16px;} } </style>
+<!-- DASHBOARD -->
+<section class="view active" id="view-dashboard">
+  <div class="page-head">
+    <p class="page-title">داشبۆرد</p>
+    <p class="page-sub">ڕوانگەیەکی خێرا بۆ کۆگا و فرۆشتنەکانت.</p>
+  </div>
+  <div class="storage-banner" id="storage-banner"></div>
+  <div class="stat-grid" id="stat-grid"></div>
+  <div class="panel">
+    <p class="panel-title">پێویستی سەرنجدانە</p>
+    <div id="attention-list"></div>
+  </div>
+  <div class="panel">
+    <p class="panel-title">فرۆشتنە دواییەکان</p>
+    <div id="recent-sales"></div>
+  </div>
+  <div class="panel">
+    <p class="panel-title">پاشەکەوتکردنی داتا</p>
+    <div class="backup-row">
+      <button class="btn secondary small" id="btn-export">داگرتنی کۆپی</button>
+      <button class="btn ghost small" id="btn-import-trigger">گەڕاندنەوەی کۆپی</button>
+      <button class="btn ghost small" id="btn-refresh" style="display:none;">نوێکردنەوە</button>
+      <input type="file" id="import-file-input" accept="application/json" style="display:none;">
+    </div>
+    <p class="backup-note">داگرتنی کۆپییەک لە داتاکانت وەک فایل، بۆ پاراستنی لە هەر شوێنێکی جیاواز.</p>
+  </div>
+</section>
+
+<!-- INVENTORY -->
+<section class="view" id="view-inventory">
+  <div class="page-head">
+    <p class="page-title">کۆگا</p>
+    <p class="page-sub">هەموو دەرمان و کاڵاکانی ئێستا لە کۆگادا.</p>
+  </div>
+  <div class="toolbar">
+    <input type="text" class="search-input" id="inv-search" placeholder="گەڕان بە ناو، جۆر یان ژمارەی بەچ">
+    <button class="btn" id="btn-add-medicine">+ زیادکردنی دەرمان</button>
+  </div>
+  <div class="panel" style="padding:0;overflow-x:auto;">
+    <table id="inv-table">
+      <thead>
+        <tr>
+          <th>ناو</th><th>جۆر</th><th>بەچ</th><th>کۆگا</th><th>نرخ</th><th>بەسەرچوون</th><th>دۆخ</th><th></th>
+        </tr>
+      </thead>
+      <tbody id="inv-tbody"></tbody>
+    </table>
+    <div class="empty-note" id="inv-empty" style="display:none;">هیچ دەرمانێک نیە. یەکەم دەرمان زیاد بکە بۆ دەستپێکردن.</div>
+  </div>
+</section>
+
+<!-- BILLING -->
+<section class="view" id="view-billing">
+  <div class="page-head">
+    <p class="page-title">فرۆشتنی نوێ</p>
+    <p class="page-sub">دەرمان زیاد بکە بۆ سەبەتە، پاشان فرۆشتنەکە تەواو بکە.</p>
+  </div>
+  <div class="billing-grid">
+    <div class="panel">
+      <p class="panel-title">دۆزینەوەی دەرمان</p>
+      <input type="text" class="search-input" id="bill-search" placeholder="گەڕان بۆ دەرمان بۆ زیادکردن" style="margin-bottom:12px;">
+      <div id="bill-pick-list"></div>
+    </div>
+    <div class="panel">
+      <p class="panel-title">سەبەتە</p>
+      <div class="field" style="margin-bottom:14px;">
+        <label>کڕیار (دەرمانخانە)</label>
+        <select id="bill-client">
+          <option value="">کڕیاری دیارنەکراو (نەقدی)</option>
+        </select>
+      </div>
+      <div id="cart-list"></div>
+      <div class="empty-note" id="cart-empty">سەبەتە بەتاڵە. دەرمان زیاد بکە لە لای دیکە.</div>
+      <div class="cart-total-row"><span>کۆی گشتی</span><span class="num" id="cart-total">0 د.ع</span></div>
